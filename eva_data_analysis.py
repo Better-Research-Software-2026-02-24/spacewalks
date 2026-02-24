@@ -2,6 +2,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 def read_json_to_dataframe(input_file):
+    """
+    Read a .json file into a pandas dataframe
+    Args:
+        input_file: (str) input file name, expects .json file extension
+    Returns:
+        eva_df: pandas dataframe
+    """
     print(f'Reading JSON file {input_file}')
     # Read the data from a JSON file into a Pandas dataframe
     eva_df = pd.read_json(input_file, convert_dates=['date'], encoding='ascii')
@@ -12,11 +19,28 @@ def read_json_to_dataframe(input_file):
 
 
 def write_dataframe_to_csv(df, output_file):
+    """
+    Converts a pandas dataframe to a .csv file
+    Args:
+        df: (pandas dataframe) input dataframe to be converted
+        output_file: (str) output file name - should be a .csv
+    Returns
+        N/A
+    """
     print(f'Saving to CSV file {output_file}')
     # Save dataframe to CSV file for later analysis
     df.to_csv(output_file, index=False, encoding='utf-8')
 
 def plot_cumulative_duration_vs_date(x,y,output_file):
+    """
+    Plots the cumulative spacewalk time vs year
+    Args:
+        x: (pandas dataframe column) date
+        y: (pandas dataframe column) cumulative spacewalk time
+        output_file: (str) file name for pyplot output image
+    Returns:
+        N/A
+    """
     fig = plt.figure()
     ax = fig.add_subplot()
     ax.set_xlabel('Year')
