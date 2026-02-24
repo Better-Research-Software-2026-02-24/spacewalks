@@ -6,22 +6,22 @@ import matplotlib.pyplot as plt
 ###############################
 
 # https://data.nasa.gov/resource/eva.json (with modifications)
-data_f = open('./eva_data.json','r',encoding='ascii')
-data_t = open('./eva_data.csv','w',encoding='utf8')
-g_file = './cumulative_eva_graph.png'
+input_file = open('./eva_data.json','r',encoding='ascii')
+output_file = open('./eva_data.csv','w',encoding='utf8')
+graph_file = './cumulative_eva_graph.png'
 
 fieldnames = ("EVA #", "Country", "Crew    ", "Vehicle", "Date", "Duration", "Purpose")
 
 data=[]
 
 for i in range(375):
-    line=data_f.readline()
+    line=input_file.readline()
     print(line)
     data.append(json.loads(line[1:-1]))
 #data.pop(0)
 ## Comment out this bit if you don't want the spreadsheet
 
-w=csv.writer(data_t)
+writer=csv.writer(output_file)
 
 time = []
 date =[]
@@ -30,16 +30,17 @@ j=0
 for i in data:
     print(data[j])
     # and this bit
-    w.writerow(data[j].values())
+    writer.writerow(data[j].values())
     if 'duration' in data[j].keys():
-        tt=data[j]['duration']
-        if tt == '':
+        duration_str=data[j]['duration']
+        if duration_str == '':
             pass
         else:
-            t=dt.datetime.strptime(tt,'%H:%M')
-            ttt = dt.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second).total_seconds()/(60*60)
-            print(t,ttt)
-            time.append(ttt)
+            hours_mins=dt.datetime.strptime(duration_str,'%H:%M')
+            hours = dt.timedelta(hours=hours_mins.hour, minutes=hours_mins.minute,
+                                   seconds=hours_mins.second).total_seconds()/(60*60)
+            print(hours_mins,hours)
+            time.append(hours)
             if 'date' in data[j].keys():
                 date.append(dt.datetime.strptime(data[j]['date'][0:10], '%Y-%m-%d'))
                 #date.append(data[j]['date'][0:10])
@@ -48,15 +49,15 @@ for i in data:
                 time.pop(0)
     j+=1
 
-t=[0]
+time_axis=[0]
 for i in time:
-    t.append(t[-1]+i)
+    time_axis.append(time_axis[-1]+i)
 
 date,time = zip(*sorted(zip(date, time)))
 
-plt.plot(date,t[1:], 'ko-')
+plt.plot(date,time_axis[1:], 'ko-')
 plt.xlabel('Year')
 plt.ylabel('Total time spent in space to date (hours)')
 plt.tight_layout()
-plt.savefig(g_file)
+plt.savefig(graph_file)
 plt.show()
