@@ -14,13 +14,13 @@ Spacewalks was developed using python 3.12
 
 To install and run spacewalks, you Python >= 3.12. You will also need the libraries included in requirements.txt:
 
-- [numpy] (https://www.numpy.org)
-- [matplotlib] (https://matplotlib.org/stable/index.html)
-- [pytest] (https://docs.pytest.org)
-- [pandas] (https://pandas.pydata.org)
+- [numpy](https://www.numpy.org)
+- [matplotlib](https://matplotlib.org/stable/index.html)
+- [pytest](https://docs.pytest.org)
+- [pandas](https://pandas.pydata.org)
 
 ## Installation instructions
-You can obtain Spacewalks from [github] (https://github.com/laurajascott/spacewalks)
+You can obtain Spacewalks from [github](https://github.com/laurajascott/spacewalks)
 
 Once you have cloned the repository or unzipped the download as needed, create a virtual environment, activate it, and install the necessary python packages in the requirements.txt before running the code as explained in the usage example.
 
