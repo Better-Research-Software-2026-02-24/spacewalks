@@ -1,0 +1,14 @@
+site_name: spacewalks documentation
+use_directory_urls: false
+theme:
+  name: "material"
+font: false
+nav:
+  - mkdocs index: index.md
+  - tutorials: tutorials.md
+  - how-to guide: how-to-guide.md
+  - reference: reference.md
+  - background: explanation.md
+
+plugins:
+  - mkdocstrings
