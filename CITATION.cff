@@ -1,0 +1,19 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Spacewalks
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Laura
+    family-names: Scott
+    email: laura.scott@newcastle.ac.uk
+    affiliation: Newcastle University
+repository-code: 'https://github.com/laurajascott/spacewalks'
+abstract: >-
+  Software for analysing spacewalks made for better research
+  software workshop.
+license: MIT
