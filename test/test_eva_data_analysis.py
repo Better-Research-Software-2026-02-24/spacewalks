@@ -15,24 +15,15 @@ def test_text_to_duration_float():
     """
     assert text_to_duration('10:20') == pytest.approx(10.333333)
 
-def test_calculate_crew_size():
+@pytest.mark.parametrize('input_value, expected_result',[
+    ('Alice Brown;',1),
+    ('Alice Brown;Bob Badonde;',2),
+    ('',None)
+])
+def test_calculate_crew_size(input_value,expected_result):
     """
     Test that calculate_crew_size returns expected values
     """
-    actual_result = calculate_crew_size('Alice Brown;')
-    expected_result = 1
-    assert actual_result == expected_result
-
-    actual_result = calculate_crew_size('Alice Brown;Bob Badonde;')
-    expected_result = 2
-    assert actual_result == expected_result
-
-def test_calculate_crew_size_edge_cases():
-    """
-    Test that calculate_crew_size returns expected values 
-    for edge cases i.e. empty string
-    """
-    actual_result = calculate_crew_size('')
-    expected_result = None
+    actual_result = calculate_crew_size(input_value)
     assert actual_result == expected_result
 
