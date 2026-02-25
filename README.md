@@ -12,7 +12,7 @@ Key features of spacewalks:
 ## Prerequisites
 Spacewalks was developed using python 3.12
 
-To install and run spacewalks, you Python >= 3.12. You will also need the libraries included in requirements.txt:
+To install and run spacewalks, you need Python >= 3.12. You will also need the libraries included in requirements.txt:
 
 - [numpy](https://www.numpy.org)
 - [matplotlib](https://matplotlib.org/stable/index.html)
