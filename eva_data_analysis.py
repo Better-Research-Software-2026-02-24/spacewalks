@@ -62,9 +62,9 @@ def read_json_to_dataframe(input_file):
     """
     Read a .json file into a pandas dataframe
     Args:
-        input_file: (str) input file name, expects .json file extension
+        input_file (str): input file name, expects .json file extension
     Returns:
-        eva_df: pandas dataframe
+        eva_df (pandas dataframe): data converted to pandas dataframe
     """
     print(f'Reading JSON file {input_file}')
     # Read the data from a JSON file into a Pandas dataframe
