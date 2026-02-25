@@ -12,8 +12,12 @@ authors:
     family-names: Scott
     email: laura.scott@newcastle.ac.uk
     affiliation: Newcastle University
+identifiers:
+  - type: doi
+    value: 10.1093/mnras/staf2174
 repository-code: 'https://github.com/laurajascott/spacewalks'
 abstract: >-
   Software for analysing spacewalks made for better research
   software workshop.
 license: MIT
+
