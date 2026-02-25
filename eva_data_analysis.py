@@ -116,8 +116,8 @@ def plot_cumulative_duration_vs_date(x,y,output_file):
     """
     Plots the cumulative spacewalk time vs year
     Args:
-        x: (pandas dataframe column) date
-        y: (pandas dataframe column) cumulative spacewalk time
+        x: (numpy array) date
+        y: (numpy array) cumulative spacewalk time
         output_file: (str) file name for pyplot output image
     Returns:
         N/A
