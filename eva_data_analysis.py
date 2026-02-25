@@ -103,13 +103,13 @@ if __name__ == '__main__':
     
     if len(sys.argv) < 3:
         # use default file names
-        input_file = './eva_data.json'
-        output_file = './eva_data.csv'
+        input_file = './data/eva_data.json'
+        output_file = './results/eva_data.csv'
         print('Using default input and output filenames')
     else:
         input_file = sys.argv[1]
         output_file = sys.argv[2]
         print('Using input and output filenames from command line')
-    graph_file = './cumulative_eva_graph.png'
+    graph_file = './figs/cumulative_eva_graph.png'
 
     main(input_file,output_file,graph_file)
