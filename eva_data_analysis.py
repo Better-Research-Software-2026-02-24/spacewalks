@@ -1,5 +1,26 @@
+import sys
 import matplotlib.pyplot as plt
 import pandas as pd
+
+def main(input_file,output_file,graph_file):
+    print("--START--")
+    # Read the data from JSON file
+    eva_data = read_json_to_dataframe(input_file)
+
+    # Convert and export data to CSV file
+    write_dataframe_to_csv(eva_data, output_file)
+
+    # Sort dataframe by date ready to be plotted (date values are on x-axis)
+    eva_data.sort_values('date', inplace=True)
+
+    # Calculate cumulative time spent in space over years
+    eva_data_new = add_duration_hours(eva_data)
+    eva_data_new['cumulative_time'] = eva_data_new['duration_hours'].cumsum()
+
+    # Plot
+    plot_cumulative_duration_vs_date(eva_data_new['date'],eva_data_new['cumulative_time'],graph_file)
+
+    print("--END--")
 
 def read_json_to_dataframe(input_file):
     """
@@ -17,7 +38,6 @@ def read_json_to_dataframe(input_file):
     eva_df.dropna(axis=0, subset=['duration', 'date'], inplace=True)
     return eva_df
 
-
 def write_dataframe_to_csv(df, output_file):
     """
     Converts a pandas dataframe to a .csv file
@@ -30,6 +50,31 @@ def write_dataframe_to_csv(df, output_file):
     print(f'Saving to CSV file {output_file}')
     # Save dataframe to CSV file for later analysis
     df.to_csv(output_file, index=False, encoding='utf-8')
+
+def add_duration_hours(df):
+    """
+    Add duration in hours variable to the dataset
+    Args:
+        df: (pandas dataframe) input dataframe
+    Returns:
+        df_copy: (pandas dataframe) copy of input with new
+        duration_hours column
+    """
+    df_copy = df.copy()
+    df_copy['duration_hours'] = df_copy['duration'].apply(text_to_duration)
+    return df_copy
+
+def text_to_duration(duration):
+    """
+    Convert text format duration HH:MM to duration in hours
+    Args:
+        duration: (str) Input text-format HH:MM duration
+    Returns:
+        duration_hours: (float) Duration in hours
+    """
+    hours,minutes = duration.split(':')
+    duration_hours = int(hours) + int(minutes)/6 # intentional error
+    return duration_hours
 
 def plot_cumulative_duration_vs_date(x,y,output_file):
     """
@@ -54,31 +99,17 @@ def plot_cumulative_duration_vs_date(x,y,output_file):
     plt.show()
 
 
+if __name__ == '__main__':
+    
+    if len(sys.argv) < 3:
+        # use default file names
+        input_file = './eva_data.json'
+        output_file = './eva_data.csv'
+        print('Using default input and output filenames')
+    else:
+        input_file = sys.argv[1]
+        output_file = sys.argv[2]
+        print('Using input and output filenames from command line')
+    graph_file = './cumulative_eva_graph.png'
 
-
-# Main code
-
-print("--START--")
-
-input_file = open('./eva_data.json', 'r', encoding='ascii')
-output_file = open('./eva_data.csv', 'w', encoding='utf-8')
-graph_file = './cumulative_eva_graph.png'
-
-# Read the data from JSON file
-eva_data = read_json_to_dataframe(input_file)
-
-# Convert and export data to CSV file
-write_dataframe_to_csv(eva_data, output_file)
-
-# Sort dataframe by date ready to be plotted (date values are on x-axis)
-eva_data.sort_values('date', inplace=True)
-
-# Calculate cumulative time spent in space over years
-eva_data['duration_hours'] = eva_data['duration'].str.split(":").apply(lambda x: int(x[0]) + int(x[1])/60)
-eva_data['cumulative_time'] = eva_data['duration_hours'].cumsum()
-
-# Plot
-plot_cumulative_duration_vs_date(eva_data['date'],eva_data['cumulative_time'],graph_file)
-
-print("--END--")
-
+    main(input_file,output_file,graph_file)
