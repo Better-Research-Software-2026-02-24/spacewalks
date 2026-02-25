@@ -3,7 +3,7 @@ import re
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def main(input_file,output_file,graph_file):
+def main(input_file,output_file,duration_by_astronaut_output_file,graph_file):
     print("--START--")
     # Read the data from JSON file
     eva_data = read_json_to_dataframe(input_file)
@@ -13,6 +13,11 @@ def main(input_file,output_file,graph_file):
 
     # Convert and export data to CSV file
     write_dataframe_to_csv(eva_data, output_file)
+
+    # Calculate summary table for total EVA per astronaut
+    duration_by_astronaut_df = summary_duration_by_astronaut(eva_data)
+    # Save summary duration data by each astronaut to CSV file
+    write_dataframe_to_csv(duration_by_astronaut_df, duration_by_astronaut_output_file)
 
     # Sort dataframe by date ready to be plotted (date values are on x-axis)
     eva_data.sort_values('date', inplace=True)
@@ -25,6 +30,24 @@ def main(input_file,output_file,graph_file):
     plot_cumulative_duration_vs_date(eva_data_new['date'],eva_data_new['cumulative_time'],graph_file)
 
     print("--END--")
+
+def summary_duration_by_astronaut(df):
+    """
+    Summarise the duration data by each astronaut and saves resulting table to a CSV file
+
+    Args: 
+        df (pd.DataFrame): Input dataframe to be summarised
+
+    
+    Returns:
+        sum_by_astro (pd.DataFrame): Data frame with a row for each astronaut and a summarised column 
+    """
+    print(f'Calculating summary of total EVA time by astronaut')
+    subset = df.loc[:,['crew', 'duration']] # subset to work with only relevant columns
+    subset = add_duration_hours(subset) # need duration_hours for easier calcs
+    subset = subset.drop('duration', axis=1) # dropping the extra 'duration' column as it contains string values not suitable for calulations
+    subset = subset.groupby('crew').sum() 
+    return subset
 
 def calculate_crew_size(crew):
     """
@@ -147,5 +170,6 @@ if __name__ == '__main__':
         output_file = sys.argv[2]
         print('Using input and output filenames from command line')
     graph_file = './figs/cumulative_eva_graph.png'
+    duration_by_astronaut_output_file = 'results/duration_by_astronaut.csv'
 
-    main(input_file,output_file,graph_file)
+    main(input_file,output_file,duration_by_astronaut_output_file,graph_file)
